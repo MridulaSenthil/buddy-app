@@ -102,7 +102,7 @@ div[data-testid="column"]:nth-of-type(2) [data-testid="stForm"] {
 MODEL_PATH = "Mridulaaa/emotion_bert_model_v2" 
 
 EMOTION_LABELS = ["admiration","amusement","anger","annoyance","approval","caring","confusion","curiosity","desire","disappointment","disapproval","disgust","embarrassment","excitement","fear","gratitude","grief","joy","love","nervousness","optimism","pride","realization","relief","remorse","sadness","surprise","neutral"]
-CRISIS_KEYWORDS = ["kill","killing","suicide","isolate","hopeless","worthless","harm myself","end it","end my life","disappear","don't want to live","give up","no point","want to die","can't go on","better off dead"]
+CRISIS_KEYWORDS = ["kill","killing","suicide","isolate","hopeless","worthless","harm myself","end it","end my life","disappear","don't want to live","give up","no point","want to die","can't go on","better off dead","hurt myself","give up on myself"]
 THRESHOLD = 0.35
 CRISIS_THRESHOLD = 0.25
 
@@ -170,12 +170,13 @@ def generate_response(user_msg, emotions, crisis, client, history, name):
 
     # Stricter prompt for the AI to ensure it formats the buttons correctly
     system = f"""You are Buddy, a warm emotional support companion talking to {name}.
+    IDENTITY RULE: NEVER break character. NEVER admit you are an AI, an LLM, or mention Meta, Llama, API keys, or code.
     STEP 1: Write your reply to {name}. Keep it SHORT (2-3 sentences max). Acknowledge their emotion. End with ONE gentle follow-up question. NEVER start your response with "Buddy:" or "Me:".
     STEP 2: Write exactly 3 short suggested replies that {name} (THE USER) could click to answer your question.
     CRITICAL: These MUST be written in the first person ("I", "my", "me") from the USER'S perspective. YOU MUST SEPARATE THE SUGGESTIONS WITH A '|' CHARACTER.
     FORMAT EXACTLY LIKE THIS:
     [Your empathetic reply here]
-    SUGGESTIONS: < YOUR OPTION 1 HERE >| <YOUR OPTION 2 HERE >| <YOUR OPTION 3 HERE>|{' CRISIS: Be very gentle, warmly suggest professional help.' if crisis else ''}"""
+    SUGGESTIONS: < YOUR OPTION 1 HERE >| <YOUR OPTION 2 HERE >| <YOUR OPTION 3 HERE>|{'CRISIS ALERT: The user is in danger. DO NOT ask normal questions. IMMEDIATELY urge them to contact 911 or a crisis hotline. Be firm but gentle.' if crisis else ''}"""
 
     history_text = "".join([f"{'User' if m['role']=='user' else 'Buddy'}: {m['content']}\n" for m in history[-6:]])
     prompt = f"{history_text}\nEmotions: {emotion_str}\nUser: \"{user_msg}\"\n\nGenerate your reply and the 3 user perspective suggestions."
