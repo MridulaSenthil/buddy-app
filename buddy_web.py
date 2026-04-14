@@ -153,6 +153,10 @@ def detect_emotions(text, tok, mdl, th, top_k=2):
     inputs = tok(text, return_tensors="pt", max_length=128, padding=True, truncation=True)
     with torch.no_grad(): probs = torch.sigmoid(mdl(**inputs).logits).squeeze().numpy()
     scores = [(EMOTION_LABELS[i], float(probs[i])) for i in range(27)]
+    # --- 🚨 ADD THESE TWO SPY LINES 🚨 ---
+    top_scores = sorted(scores, key=lambda x: -x[1])[:3]
+    print(f"🚨 TEXT: {text} | TOP SCORES: {top_scores}")
+    # -------------------------------------
     above = sorted([(e,s) for e,s in scores if s >= (CRISIS_THRESHOLD if crisis else THRESHOLD)], key=lambda x: -x[1])
     return (above[:top_k] if above else [("neutral", float(probs[27]))]), crisis
 
