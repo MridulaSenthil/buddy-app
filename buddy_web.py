@@ -139,12 +139,14 @@ for key, val in {
 @st.cache_resource(show_spinner=False)
 def load_bert():
     try:
-        tok = BertTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
-        mdl = BertForSequenceClassification.from_pretrained(MODEL_PATH, local_files_only=True)
+        tok = BertTokenizer.from_pretrained(MODEL_PATH)
+        mdl = BertForSequenceClassification.from_pretrained(MODEL_PATH)
         mdl.eval()
         th_path = os.path.join(MODEL_PATH, "thresholds.npy")
         return tok, mdl, np.load(th_path) if os.path.exists(th_path) else None
-    except: return None, None, None
+    except Exception as e: 
+        print(f"🚨 MODEL LOAD ERROR: {e}")
+        return None, None, None
 
 def is_crisis(text): return any(kw in text.lower() for kw in CRISIS_KEYWORDS)
 
