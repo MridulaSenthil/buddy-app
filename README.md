@@ -1,7 +1,7 @@
 # buddy-app
 # Buddy: Privacy-First AI Emotional Support System 🧠🤖
 
-[![Streamlit App link here](https://buddy-app-huqdwdatvudwzqpb7jgcly.streamlit.app)
+[Streamlit App link](https://buddy-app-huqdwdatvudwzqpb7jgcly.streamlit.app)
 
 Buddy is an end-to-end conversational AI application designed for mental health monitoring. It leverages a dual-model architecture that splits workloads between localized, high-precision deep learning frameworks and cloud-based Large Language Models (LLMs) to maximize user privacy and minimize inference latency.
 
