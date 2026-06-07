@@ -1,5 +1,5 @@
 # buddy-app
-# Buddy: Privacy-First AI Emotional Support System 🧠🤖
+# Buddy: AI Emotional Support System 🧠🤖
 
 [Streamlit App link](https://buddy-app-huqdwdatvudwzqpb7jgcly.streamlit.app)
 
